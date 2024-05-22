@@ -8,9 +8,13 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var isFlashlightOn = false
+    @State var isFlashlightOn = true
     @State var helpOn = false
     @State var isRecording = false
+    @State var recognizingText = false
+    @State var detectedText : String = ""
+    
+    @ObservedObject var speechView = SpeechRecognition()
     
     var body: some View {
         ZStack {
@@ -39,16 +43,28 @@ struct ContentView: View {
                     Spacer()
                 }
                 Spacer()
-                Text("Recognized text here...")
-                    .font(.system(size: 100, weight:.semibold, design: .rounded))
+                if recognizingText == false{
+                    Text("Enter text...")
+                        .font(.system(size: 100, weight:.semibold, design: .rounded))
+                        .foregroundStyle(.gray.opacity(0))
+                }
+                else if recognizingText == true && detectedText == ""{
+                    Text(speechView.recognizedText ?? "")
+                        .font(.system(size: 100, weight:.semibold, design: .rounded))
+                }
+                else if recognizingText == true && detectedText != "" {
+                    Text(detectedText)
+                        .font(.system(size: 100, weight:.semibold, design: .rounded))
+                }
                 Spacer()
                 
-                Button{
-                    //aksi
+                Button {
+                    speechView.recognizedText = ""
+                    detectedText = ""
                 } label: {
                     Image(systemName: "gobackward")
                         .resizable()
-                        .frame(width: 43, height: 45)
+                        .frame(width: 40, height: 45)
                         .foregroundColor(.gray.opacity(0.5))
                 }
                 
@@ -58,14 +74,21 @@ struct ContentView: View {
                     Button(
                         action: {
                             isRecording.toggle()
+                            recognizingText = true
+                            if isRecording == true {
+                                speechView.start()
+                            }
+                            else {
+                                speechView.stop()
+                                detectedText = speechView.recognizedText ?? ""
+                            }
+//                            isRecording ? speechView.start() : speechView.stop()
                     }
                             
                     ){
-                        Image(systemName: isRecording ?  "mic.circle.fill" : "stop.circle")
+                        Image(systemName: isRecording ? "stop.circle" :  "mic.circle.fill")
                             .resizable()
-                            .frame(width: 130, height: 130)
-                            .scaleEffect(isRecording ? 1.0 : 1.1)
-                           
+                            .frame(width: 120, height: 120)
                             .foregroundColor(.morcyRed)
                     }
                     Button(
@@ -76,7 +99,7 @@ struct ContentView: View {
                     ){
                         Image(systemName: isFlashlightOn ?  "flashlight.off.circle.fill" : "flashlight.on.circle.fill")
                             .resizable()
-                            .frame(width: 130, height: 130)
+                            .frame(width: 120, height: 120)
                             .foregroundColor(isFlashlightOn ? Color.gray.opacity(0.5) : Color.black)
                     }
                 }

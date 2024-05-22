@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B240EDC82BFB44000001EB52 /* SpeechRecognition.swift in Sources */ = {isa = PBXBuildFile; fileRef = B240EDC72BFB44000001EB52 /* SpeechRecognition.swift */; };
+		B240EDCA2BFE03620001EB52 /* Morse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B240EDC92BFE03620001EB52 /* Morse.swift */; };
 		B253B91F2BF4CB8A003377D5 /* MorcyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B253B91E2BF4CB8A003377D5 /* MorcyApp.swift */; };
 		B253B9212BF4CB8A003377D5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B253B9202BF4CB8A003377D5 /* ContentView.swift */; };
 		B253B9232BF4CB8B003377D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B253B9222BF4CB8B003377D5 /* Assets.xcassets */; };
@@ -16,6 +17,7 @@
 
 /* Begin PBXFileReference section */
 		B240EDC72BFB44000001EB52 /* SpeechRecognition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognition.swift; sourceTree = "<group>"; };
+		B240EDC92BFE03620001EB52 /* Morse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Morse.swift; sourceTree = "<group>"; };
 		B253B91B2BF4CB8A003377D5 /* Morcy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Morcy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B253B91E2BF4CB8A003377D5 /* MorcyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MorcyApp.swift; sourceTree = "<group>"; };
 		B253B9202BF4CB8A003377D5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -56,6 +58,7 @@
 				B253B91E2BF4CB8A003377D5 /* MorcyApp.swift */,
 				B253B9202BF4CB8A003377D5 /* ContentView.swift */,
 				B240EDC72BFB44000001EB52 /* SpeechRecognition.swift */,
+				B240EDC92BFE03620001EB52 /* Morse.swift */,
 				B253B9222BF4CB8B003377D5 /* Assets.xcassets */,
 				B253B9242BF4CB8B003377D5 /* Preview Content */,
 			);
@@ -140,6 +143,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B240EDCA2BFE03620001EB52 /* Morse.swift in Sources */,
 				B253B9212BF4CB8A003377D5 /* ContentView.swift in Sources */,
 				B240EDC82BFB44000001EB52 /* SpeechRecognition.swift in Sources */,
 				B253B91F2BF4CB8A003377D5 /* MorcyApp.swift in Sources */,
@@ -279,11 +283,14 @@
 				DEVELOPMENT_TEAM = 8NK82CP58B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -308,11 +315,14 @@
 				DEVELOPMENT_TEAM = 8NK82CP58B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
