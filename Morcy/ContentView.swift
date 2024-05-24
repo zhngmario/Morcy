@@ -14,6 +14,7 @@ struct ContentView: View {
     @State var recognizingText = false
     @State var detectedText : String = ""
     
+    @ObservedObject var flashlightView = ConnectFlashlight()
     @ObservedObject var speechView = SpeechRecognition()
     
     var body: some View {
@@ -93,9 +94,11 @@ struct ContentView: View {
                     }
                     Button(
                         action:  {
+                            flashlightView.isFlashlightOn.toggle()
                             isFlashlightOn.toggle()
-                            // aksi
-                        }
+                            let morsedText = MorseCode.textToMorse(text: detectedText)
+                            flashlightView.morseToFlashlight(morseCode: morsedText)
+                            }
                     ){
                         Image(systemName: isFlashlightOn ?  "flashlight.off.circle.fill" : "flashlight.on.circle.fill")
                             .resizable()

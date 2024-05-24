@@ -42,7 +42,7 @@ final class SpeechRecognition: NSObject, ObservableObject, SFSpeechRecognizerDel
     func start() {
         inputNode = audioEngine.inputNode
         
-        var speechLanguage = "en-US"
+        let speechLanguage = "en-US"
         
         speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: speechLanguage))
         //speechRecognizer = SFSpeechRecognizer()
