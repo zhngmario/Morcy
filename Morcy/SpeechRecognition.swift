@@ -12,103 +12,89 @@ import SwiftUI
 final class SpeechRecognition: NSObject, ObservableObject, SFSpeechRecognizerDelegate {
     private let audioEngine = AVAudioEngine()
     private var inputNode: AVAudioInputNode?
-    private var speechRecognizer: SFSpeechRecognizer?
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
     private var audioSession: AVAudioSession?
-    
+
     @Published var recognizedText: String?
     @Published var isProcessing: Bool = false
-
-    init(inputNode: AVAudioInputNode? = nil, speechRecognizer: SFSpeechRecognizer? = nil, recognitionRequest: SFSpeechAudioBufferRecognitionRequest? = nil, recognitionTask: SFSpeechRecognitionTask? = nil, audioSession: AVAudioSession? = nil, recognizedText: String? = nil, isProcessing: Bool = false) {
-        self.inputNode = inputNode
-        self.speechRecognizer = speechRecognizer
-        self.recognitionRequest = recognitionRequest
-        self.recognitionTask = recognitionTask
-        self.audioSession = audioSession
-        self.recognizedText = recognizedText
-        self.isProcessing = isProcessing
+    @Published var speechRecognizer: SFSpeechRecognizer?
     
+    init(languageCode: String = "en-US") {
+        super.init()
+        self.speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: languageCode))
         self.audioSession = AVAudioSession.sharedInstance()
+        
         do {
             try audioSession?.setCategory(.playAndRecord, mode: .default, options: [.defaultToSpeaker])
             try audioSession?.setActive(true, options: .notifyOthersOnDeactivation)
         } catch {
             print("Couldn't configure the audio session properly")
         }
-    
     }
-    
+
+    func setLanguageCode(_ languageCode: String) {
+        self.speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: languageCode))
+    }
+
     func start() {
         inputNode = audioEngine.inputNode
         
-        let speechLanguage = "en-US"
-        
-        speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: speechLanguage))
-        //speechRecognizer = SFSpeechRecognizer()
-        print("Supports on device recognition: \(speechRecognizer?.supportsOnDeviceRecognition == true ? "✅" : "🔴")")
-
-        recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
-        
-
         guard let speechRecognizer = speechRecognizer,
-              speechRecognizer.isAvailable,
-              let recognitionRequest = recognitionRequest,
-              let inputNode = inputNode
-        else {
-            assertionFailure("Unable to start the speech recognition!")
+              speechRecognizer.isAvailable else {
+            print("Speech recognizer not available!")
             return
         }
-        
-        speechRecognizer.delegate = self
-        
-        let recordingFormat = inputNode.outputFormat(forBus: 0)
-        inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { (buffer: AVAudioPCMBuffer, when: AVAudioTime) in
-            recognitionRequest.append(buffer)
-        }
 
-        recognitionTask = speechRecognizer.recognitionTask(with: recognitionRequest) { [weak self] result, error in
-            self?.recognizedText = result?.bestTranscription.formattedString
-            
-            guard error != nil || result?.isFinal == true else { return }
-            self?.stop()
+        recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
+        recognitionRequest?.shouldReportPartialResults = true
+
+        let recordingFormat = inputNode?.outputFormat(forBus: 0)
+        inputNode?.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { (buffer: AVAudioPCMBuffer, when: AVAudioTime) in
+            self.recognitionRequest?.append(buffer)
         }
 
         audioEngine.prepare()
-        
+
         do {
             try audioEngine.start()
             isProcessing = true
         } catch {
-            print("Coudn't start audio engine!")
+            print("Couldn't start audio engine!")
             stop()
+            return
+        }
+
+        recognitionTask = speechRecognizer.recognitionTask(with: recognitionRequest!) { [weak self] result, error in
+            if let result = result {
+                self?.recognizedText = result.bestTranscription.formattedString
+            }
+
+            if error != nil || result?.isFinal == true {
+                self?.stop()
+            }
         }
     }
-    
+
     func stop() {
-        recognitionTask?.cancel()
-        
         audioEngine.stop()
+        recognitionRequest?.endAudio()
         inputNode?.removeTap(onBus: 0)
-//        try? audioSession?.setActive(false)
-        audioSession = nil
-        inputNode = nil
         
-        isProcessing = false
-        
-        recognitionRequest = nil
+        recognitionTask?.cancel()
         recognitionTask = nil
-        speechRecognizer = nil
+        recognitionRequest = nil
+        isProcessing = false
     }
-    
-    public func speechRecognizer(_ speechRecognizer: SFSpeechRecognizer, availabilityDidChange available: Bool) {
+
+    func speechRecognizer(_ speechRecognizer: SFSpeechRecognizer, availabilityDidChange available: Bool) {
         if available {
-            print("✅ Available")
+            print("Speech recognizer is available.")
         } else {
-            print("🔴 Unavailable")
+            print("Speech recognizer is unavailable.")
             recognizedText = "Text recognition unavailable. Sorry!"
             stop()
         }
-     }
+    }
 }
 

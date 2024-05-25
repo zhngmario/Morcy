@@ -13,14 +13,24 @@ struct ContentView: View {
     @State var isRecording = false
     @State var recognizingText = false
     @State var detectedText : String = ""
+    @State var isEnglishSelected = true
+    @State var selectedLanguage = "en-US"
     
     @ObservedObject var flashlightView = ConnectFlashlight()
-    @ObservedObject var speechView = SpeechRecognition()
+    @ObservedObject var speechView = SpeechRecognition(languageCode: "en-US")
+    
+    let languages = ["en-US": "English (US)", "id-ID": "Bahasa Indonesia"]
     
     var body: some View {
         ZStack {
             VStack{
                 HStack{
+                    Picker("Select Language", selection: $selectedLanguage) {
+                        ForEach(languages.keys.sorted(), id: \.self) { key in
+                            Text(languages[key] ?? key).tag(key) }
+                    }.accentColor(.black)
+                        .pickerStyle(MenuPickerStyle())
+                    .onChange(of: selectedLanguage) { value in speechView.setLanguageCode(value) }
                     Spacer()
                     Button(
                         action: {
@@ -47,7 +57,7 @@ struct ContentView: View {
                 if recognizingText == false{
                     Text("Enter text...")
                         .font(.system(size: 100, weight:.semibold, design: .rounded))
-                        .foregroundStyle(.gray.opacity(0))
+                        .foregroundStyle(.gray.opacity(0.5))
                 }
                 else if recognizingText == true && detectedText == ""{
                     Text(speechView.recognizedText ?? "")
@@ -83,7 +93,6 @@ struct ContentView: View {
                                 speechView.stop()
                                 detectedText = speechView.recognizedText ?? ""
                             }
-//                            isRecording ? speechView.start() : speechView.stop()
                     }
                             
                     ){
@@ -105,7 +114,7 @@ struct ContentView: View {
                             .frame(width: 120, height: 120)
                             .foregroundColor(isFlashlightOn ? Color.gray.opacity(0.5) : Color.black)
                     }
-                }
+                }          
             }
         }
         .padding()
