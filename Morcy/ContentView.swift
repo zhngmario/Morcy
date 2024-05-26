@@ -21,7 +21,12 @@ struct ContentView: View {
     @ObservedObject var flashlightView = ConnectFlashlight()
     @ObservedObject var speechView = SpeechRecognition(languageCode: "en-US")
     
-    let languages = ["en-US": "English (US)", "id-ID": "Bahasa Indonesia"]
+    let languages = [
+        "en-US": "English (US)",
+        "id-ID": "Bahasa Indonesia",
+        "es-ES": "Spanish (ES)",
+        "fr-FR": "French (FR)"
+    ]
     
     var body: some View {
         ZStack {
