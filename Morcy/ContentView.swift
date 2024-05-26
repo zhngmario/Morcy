@@ -15,6 +15,8 @@ struct ContentView: View {
     @State var detectedText : String = ""
     @State var isEnglishSelected = true
     @State var selectedLanguage = "en-US"
+    @State var isBlinking = false
+    @State var isFlashOn = false
     
     @ObservedObject var flashlightView = ConnectFlashlight()
     @ObservedObject var speechView = SpeechRecognition(languageCode: "en-US")
@@ -28,8 +30,11 @@ struct ContentView: View {
                     Picker("Select Language", selection: $selectedLanguage) {
                         ForEach(languages.keys.sorted(), id: \.self) { key in
                             Text(languages[key] ?? key).tag(key) }
-                    }.accentColor(.black)
-                        .pickerStyle(MenuPickerStyle())
+                    }.pickerStyle(MenuPickerStyle())
+                    .padding(15)
+                    .background(Color.black)
+                    .cornerRadius(50)
+                    .accentColor(.white)
                     .onChange(of: selectedLanguage) { value in speechView.setLanguageCode(value) }
                     Spacer()
                     Button(
@@ -48,10 +53,16 @@ struct ContentView: View {
             VStack{
                 HStack{
                     Spacer()
-                    Image("MorcyWhite")
-                        .resizable()
-                        .frame(width: 220, height: 220)
-                    Spacer()
+                    if isFlashOn {
+                        Image("MorcyBlinking")
+                            .resizable()
+                            .frame(width: 220, height: 220)
+                    } else {
+                        Image("MorcyWhite")
+                            .resizable()
+                            .frame(width: 220, height: 220)
+                    }
+                        Spacer()
                 }
                 Spacer()
                 if recognizingText == false{
@@ -106,8 +117,19 @@ struct ContentView: View {
                             flashlightView.isFlashlightOn.toggle()
                             isFlashlightOn.toggle()
                             let morsedText = MorseCode.textToMorse(text: detectedText)
-                            flashlightView.morseToFlashlight(morseCode: morsedText)
+                            flashlightView.morseToFlashlight(morseCode: morsedText, flashCallback: { isOn in
+                                DispatchQueue.main.async {
+                                    isFlashOn = !isOn
+                                }
+                                
+                            }) {
+                                isBlinking = false
+                                DispatchQueue.main.async {
+                                    isFlashOn = false
+                                }
                             }
+                            isBlinking = true
+                        }
                     ){
                         Image(systemName: isFlashlightOn ?  "flashlight.off.circle.fill" : "flashlight.on.circle.fill")
                             .resizable()

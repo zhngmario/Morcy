@@ -14,6 +14,8 @@
 		B253B9262BF4CB8B003377D5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B253B9252BF4CB8B003377D5 /* Preview Assets.xcassets */; };
 		B27D36042C00637700736524 /* ConnectFlashlight.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27D36032C00637700736524 /* ConnectFlashlight.swift */; };
 		B27D36062C007B6F00736524 /* MorseCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27D36052C007B6F00736524 /* MorseCode.swift */; };
+		B27D36102C031ECF00736524 /* dashMorse.wav in Resources */ = {isa = PBXBuildFile; fileRef = B27D360F2C031ECE00736524 /* dashMorse.wav */; };
+		B27D36122C031EDE00736524 /* dotMorse.wav in Resources */ = {isa = PBXBuildFile; fileRef = B27D36112C031EDE00736524 /* dotMorse.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +27,8 @@
 		B253B9252BF4CB8B003377D5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B27D36032C00637700736524 /* ConnectFlashlight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectFlashlight.swift; sourceTree = "<group>"; };
 		B27D36052C007B6F00736524 /* MorseCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MorseCode.swift; sourceTree = "<group>"; };
+		B27D360F2C031ECE00736524 /* dashMorse.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = dashMorse.wav; sourceTree = "<group>"; };
+		B27D36112C031EDE00736524 /* dotMorse.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = dotMorse.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +76,8 @@
 			isa = PBXGroup;
 			children = (
 				B253B9252BF4CB8B003377D5 /* Preview Assets.xcassets */,
+				B27D360F2C031ECE00736524 /* dashMorse.wav */,
+				B27D36112C031EDE00736524 /* dotMorse.wav */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -134,6 +140,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B27D36102C031ECF00736524 /* dashMorse.wav in Resources */,
+				B27D36122C031EDE00736524 /* dotMorse.wav in Resources */,
 				B253B9262BF4CB8B003377D5 /* Preview Assets.xcassets in Resources */,
 				B253B9232BF4CB8B003377D5 /* Assets.xcassets in Resources */,
 			);
