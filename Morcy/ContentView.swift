@@ -17,6 +17,7 @@ struct ContentView: View {
     @State var selectedLanguage = "en-US"
     @State var isBlinking = false
     @State var isFlashOn = false
+    @State var showInstructions = false
     
     @ObservedObject var flashlightView = ConnectFlashlight()
     @ObservedObject var speechView = SpeechRecognition(languageCode: "en-US")
@@ -34,7 +35,9 @@ struct ContentView: View {
                 HStack{
                     Picker("Select Language", selection: $selectedLanguage) {
                         ForEach(languages.keys.sorted(), id: \.self) { key in
-                            Text(languages[key] ?? key).tag(key) }
+                            Text(languages[key] ?? key)
+                            .tag(key)
+                            .font(.system(.body, design: .rounded))}
                     }.pickerStyle(MenuPickerStyle())
                     .padding(15)
                     .background(Color.black)
@@ -45,12 +48,13 @@ struct ContentView: View {
                     Button(
                         action: {
                             helpOn.toggle()
+                            showInstructions.toggle()
                         }
                     ){
-                        Image(systemName: helpOn ? "questionmark.circle" : "questionmark.circle.fill")
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                            .foregroundColor(.gray.opacity(0.5))
+                            Image(systemName: helpOn ? "questionmark.circle" : "questionmark.circle.fill")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                                .foregroundColor(.gray.opacity(0.5))
                     }
                 } .padding()
                 Spacer()
@@ -145,7 +149,9 @@ struct ContentView: View {
             }
         }
         .padding()
-    
+        .sheet(isPresented: $showInstructions) {
+            InstructionsView(isPresented: $showInstructions)
+        }
     }
 }
 
