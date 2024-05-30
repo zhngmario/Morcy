@@ -19,6 +19,7 @@ class ConnectFlashlight : ObservableObject {
     private let device = AVCaptureDevice.default(for: .video)
     private var dotAudioPlayer: AVAudioPlayer?
     private var dashAudioPlayer: AVAudioPlayer?
+    private var isCancelled = false
     
     private func toggleFlashlight(isOn: Bool) {
         guard let device = device, device.hasTorch else { return }
@@ -73,6 +74,10 @@ class ConnectFlashlight : ObservableObject {
             flashCallback(false)
             self.stopSound(isDot: isDot)
         }
+    }
+    
+    func cancelMorseToFlashlight() {
+        isCancelled = true
     }
     
     private func playSound(isDot: Bool) {

@@ -83,18 +83,18 @@ struct InstructionsView: View {
             }
             
             Button(action: {
-                            isPresented = false
-                        }) {
-                            Text("Close")
-                                .font(.system(size: 20, design: .rounded))
-                                .foregroundColor(.white)
-                                .padding(.vertical, 15)
-                                .padding(.horizontal, 300)
-                                .background(Color.black)
-                                .cornerRadius(50)
-                        }
-                        .contentShape(Rectangle())
-                    }
+                isPresented = false
+            }) {
+                Text("Close")
+                    .font(.system(size: 20, design: .rounded))
+                    .foregroundColor(.white)
+                    .padding(.vertical, 15)
+                    .padding(.horizontal, 300)
+                    .background(Color.black)
+                    .cornerRadius(50)
+            }
+            .contentShape(Rectangle())
+        }
         .padding()
     }
 }

@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+//TODO: pisahin var2 yg punya view ini sama view model lainnya
 struct ContentView: View {
     @State var isFlashlightOn = true
     @State var helpOn = false
@@ -26,9 +27,16 @@ struct ContentView: View {
         "en-US": "English (US)",
         "id-ID": "Bahasa Indonesia",
         "es-ES": "Spanish (ES)",
-        "fr-FR": "French (FR)"
+        "fr-FR": "French (FR)",
+        "it-IT": "Italian (IT)",
+        "ms-MY": "Malay (MY)",
+        "pt-PT": "Portuguese (PT)",
+        "sv-SE": "Swedish (SE)",
+        "nl-NL": "Dutch (NL)",
+        "de-DE": "German (DE)"
     ]
-    
+
+
     var body: some View {
         ZStack {
             VStack{
@@ -36,14 +44,17 @@ struct ContentView: View {
                     Picker("Select Language", selection: $selectedLanguage) {
                         ForEach(languages.keys.sorted(), id: \.self) { key in
                             Text(languages[key] ?? key)
-                            .tag(key)
+                                .tag(key)
                             .font(.system(.body, design: .rounded))}
                     }.pickerStyle(MenuPickerStyle())
-                    .padding(15)
-                    .background(Color.black)
-                    .cornerRadius(50)
-                    .accentColor(.white)
-                    .onChange(of: selectedLanguage) { value in speechView.setLanguageCode(value) }
+                        .padding(15)
+                        .background(Color.black)
+                        .cornerRadius(50)
+                        .accentColor(.white)
+                        .onChange(of: selectedLanguage) {
+                            speechView.setLanguageCode(selectedLanguage)
+                        }
+                    
                     Spacer()
                     Button(
                         action: {
@@ -51,10 +62,10 @@ struct ContentView: View {
                             showInstructions.toggle()
                         }
                     ){
-                            Image(systemName: helpOn ? "questionmark.circle" : "questionmark.circle.fill")
-                                .resizable()
-                                .frame(width: 30, height: 30)
-                                .foregroundColor(.gray.opacity(0.5))
+                        Image(systemName: helpOn ? "questionmark.circle" : "questionmark.circle.fill")
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                            .foregroundColor(.gray.opacity(0.5))
                     }
                 } .padding()
                 Spacer()
@@ -71,7 +82,7 @@ struct ContentView: View {
                             .resizable()
                             .frame(width: 220, height: 220)
                     }
-                        Spacer()
+                    Spacer()
                 }
                 Spacer()
                 if recognizingText == false{
@@ -92,6 +103,8 @@ struct ContentView: View {
                 Button {
                     speechView.recognizedText = ""
                     detectedText = ""
+                    flashlightView.cancelMorseToFlashlight()
+                    isBlinking = false
                 } label: {
                     Image(systemName: "gobackward")
                         .resizable()
@@ -113,8 +126,8 @@ struct ContentView: View {
                                 speechView.stop()
                                 detectedText = speechView.recognizedText ?? ""
                             }
-                    }
-                            
+                        }
+                        
                     ){
                         Image(systemName: isRecording ? "stop.circle" :  "mic.circle.fill")
                             .resizable()
@@ -145,7 +158,7 @@ struct ContentView: View {
                             .frame(width: 120, height: 120)
                             .foregroundColor(isFlashlightOn ? Color.gray.opacity(0.5) : Color.black)
                     }
-                }          
+                }
             }
         }
         .padding()

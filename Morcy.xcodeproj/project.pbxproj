@@ -64,11 +64,8 @@
 			isa = PBXGroup;
 			children = (
 				B253B91E2BF4CB8A003377D5 /* MorcyApp.swift */,
-				B253B9202BF4CB8A003377D5 /* ContentView.swift */,
-				B27D36132C04218400736524 /* InstructionsView.swift */,
-				B27D36032C00637700736524 /* ConnectFlashlight.swift */,
-				B240EDC72BFB44000001EB52 /* SpeechRecognition.swift */,
-				B27D36052C007B6F00736524 /* MorseCode.swift */,
+				B27D36152C0467E300736524 /* View */,
+				B27D36162C04689500736524 /* Model */,
 				B253B9222BF4CB8B003377D5 /* Assets.xcassets */,
 				B253B9242BF4CB8B003377D5 /* Preview Content */,
 			);
@@ -83,6 +80,25 @@
 				B27D36112C031EDE00736524 /* dotMorse.wav */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		B27D36152C0467E300736524 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B27D36132C04218400736524 /* InstructionsView.swift */,
+				B253B9202BF4CB8A003377D5 /* ContentView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B27D36162C04689500736524 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B27D36052C007B6F00736524 /* MorseCode.swift */,
+				B240EDC72BFB44000001EB52 /* SpeechRecognition.swift */,
+				B27D36032C00637700736524 /* ConnectFlashlight.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
